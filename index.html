@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Psychology of Procrastination: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+        }
+        .nav-link.active {
+            color: #0d9488; /* teal-600 */
+            border-bottom-color: #0d9488;
+        }
+        .archetype-btn {
+            transition: all 0.3s ease;
+        }
+        .archetype-btn.active {
+            background-color: #0d9488;
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-stone-200">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-teal-700">Procrastination Guide</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#understand" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 hover:text-teal-600 border-b-2 border-transparent">Understand</a>
+                        <a href="#why" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 hover:text-teal-600 border-b-2 border-transparent">Why It Happens</a>
+                        <a href="#archetypes" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 hover:text-teal-600 border-b-2 border-transparent">Who Procrastinates?</a>
+                        <a href="#overcome" class="nav-link px-3 py-2 text-sm font-medium text-stone-600 hover:text-teal-600 border-b-2 border-transparent">How to Overcome</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <section id="understand" class="section space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">Understanding Procrastination</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-stone-600">Procrastination is more than just laziness; it's a complex psychological behavior—the irrational delay of tasks despite knowing it will lead to negative consequences. It's a battle of self-regulation rooted in managing emotions, not just time.</p>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-200">
+                <h3 class="text-2xl font-semibold text-center text-stone-800">The Far-Reaching Consequences</h3>
+                <p class="text-center text-stone-500 mt-2 mb-6">Procrastination doesn't just affect deadlines. It has a significant, negative impact on multiple areas of our lives. Hover over each segment below to see the details.</p>
+                <div class="chart-container">
+                    <canvas id="consequencesChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="why" class="section space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">Why It Happens: The Core Conflict</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-stone-600">The urge to procrastinate often stems from a fundamental conflict in the brain and a host of underlying psychological factors. This section explores the battle between immediate feelings and long-term goals.</p>
+            </div>
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-200">
+                <h3 class="text-2xl font-semibold text-center text-stone-800">The Brain's Tug-of-War</h3>
+                <p class="text-center text-stone-500 mt-2 mb-6">Procrastination is a fight between the brain's emotional, impulsive Limbic System and the rational, planning Prefrontal Cortex. Click the buttons to see which system is winning the tug-of-war.</p>
+                <div id="brainTugOfWar" class="flex flex-col md:flex-row items-center justify-center gap-8 p-4">
+                    <div id="limbicSide" class="flex-1 text-center p-4 rounded-lg bg-rose-50 border-2 border-rose-200 transition-all duration-500">
+                        <h4 class="font-bold text-lg text-rose-800">Limbic System</h4>
+                        <p class="text-sm text-rose-600">The Emotional Driver</p>
+                    </div>
+                    <div class="text-2xl font-bold text-stone-400 transition-all duration-500" id="tugOfWarIcon">VS</div>
+                    <div id="pfcSide" class="flex-1 text-center p-4 rounded-lg bg-teal-50 border-2 border-teal-200 transition-all duration-500">
+                        <h4 class="font-bold text-lg text-teal-800">Prefrontal Cortex</h4>
+                        <p class="text-sm text-teal-600">The Rational Planner</p>
+                    </div>
+                </div>
+                <div id="brain-explanation" class="mt-6 text-center text-stone-700 bg-stone-100 p-4 rounded-lg min-h-[100px]">Select a scenario to see the outcome.</div>
+                <div class="flex justify-center gap-4 mt-4">
+                    <button id="impulseBtn" class="px-4 py-2 bg-rose-500 text-white font-semibold rounded-lg shadow-md hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-opacity-75 transition-transform hover:scale-105">Let Impulse Win</button>
+                    <button id="controlBtn" class="px-4 py-2 bg-teal-500 text-white font-semibold rounded-lg shadow-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 transition-transform hover:scale-105">Engage Control</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="archetypes" class="section space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">Who Procrastinates? Find Your Profile</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-stone-600">Procrastination isn't one-size-fits-all. Different people delay for different reasons. Click on an archetype below that sounds like you to discover your primary drivers and receive personalized strategies.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="archetype-buttons">
+            </div>
+            <div id="archetype-display" class="bg-white p-6 md:p-8 rounded-xl shadow-sm border border-stone-200 min-h-[300px] flex items-center justify-center">
+                 <p class="text-stone-500 text-center">Select an archetype above to see details.</p>
+            </div>
+        </section>
+
+        <section id="overcome" class="section space-y-12">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-stone-900 sm:text-4xl">How to Overcome: Your Toolkit</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-stone-600">Overcoming procrastination requires addressing its emotional roots. Explore this toolkit of evidence-based strategies, categorized to help you find what you need most.</p>
+            </div>
+            <div id="strategies-accordion" class="space-y-4">
+            </div>
+        </section>
+
+    </main>
+    <footer class="bg-stone-100 mt-12">
+        <div class="container mx-auto py-6 px-4 text-center text-stone-500 text-sm">
+            <p>An interactive guide based on psychological research into procrastination. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const data = {
+                consequences: {
+                    labels: ['Academic & Professional', 'Psychological Distress', 'Health Implications', 'Low Self-Esteem'],
+                    data: [90, 85, 75, 80],
+                    details: [
+                        'Lower grades, poorer performance, and slower career advancement.',
+                        'Increased anxiety, depression, guilt, and shame.',
+                        'Higher stress, increased illness, and poor sleep quality.',
+                        'Feelings of inadequacy and self-loathing from unfulfilled intentions.'
+                    ]
+                },
+                brain: {
+                    impulse: "The Limbic System takes over. You avoid the unpleasant task, opting for something that provides immediate relief or pleasure (like social media). This gives a short-term mood boost, but reinforces the procrastination habit, making it stronger.",
+                    control: "The Prefrontal Cortex is in charge. You acknowledge the unpleasant feelings but choose to act on the task anyway, prioritizing your long-term goals. This builds discipline and weakens the procrastination habit over time."
+                },
+                archetypes: [
+                    {
+                        name: "The Worrier",
+                        icon: "😟",
+                        driver: "Fear of Failure",
+                        description: "You delay tasks because you fear you can't do them well enough. The anxiety about potential failure is so great that avoiding the task feels safer than trying and possibly failing.",
+                        strategies: ["Give yourself permission to make mistakes.", "Focus on 'good enough' instead of perfect.", "Break tasks into tiny, non-intimidating first steps."]
+                    },
+                    {
+                        name: "The Perfectionist",
+                        icon: "🧐",
+                        driver: "Fear of Imperfection",
+                        description: "You postpone starting because you have impossibly high standards. The fear of not executing the task flawlessly is paralyzing. If it can't be perfect, you'd rather not do it at all.",
+                        strategies: ["Set realistic, achievable goals.", "Adopt the mantra: 'Done is better than perfect'.", "Create an initial, 'messy' draft with no expectation of quality."]
+                    },
+                    {
+                        name: "The Crisis-Maker",
+                        icon: "🔥",
+                        driver: "Needs Pressure",
+                        description: "You believe you only work well under the intense stress of a looming deadline. You delay tasks to create the adrenaline rush you feel is necessary to get motivated and perform.",
+                        strategies: ["Use the Pomodoro Technique to create structured urgency.", "Set artificial, earlier deadlines.", "Reward yourself for starting early, not just for finishing."]
+                    },
+                    {
+                        name: "The Dreamer",
+                        icon: "몽",
+                        driver: "Avoids Hard Work",
+                        description: "You have grand ideas but struggle with the effort required to make them a reality. The task seems boring or frustrating, and you believe things should materialize without significant, tedious work.",
+                        strategies: ["Connect the task to a larger, meaningful purpose.", "Visualize the positive outcome of completing the task.", "Reward yourself for effort, not just results."]
+                    },
+                    {
+                        name: "The Defier",
+                        icon: "😠",
+                        driver: "Resents Control",
+                        description: "You delay tasks out of anger or resentment toward being told what to do. Your procrastination is a form of rebellion, driven by the belief, 'I shouldn't have to do this!'.",
+                        strategies: ["Reframe the task to focus on your personal benefit or choice.", "Find an aspect of the task you can control or own.", "Use accountability partners instead of authority figures."]
+                    },
+                    {
+                        name: "The Over-doer",
+                        icon: "📚",
+                        driver: "Fear of Not Being Enough",
+                        description: "You take on too many tasks and then fail to prioritize the most important ones because you're afraid of saying no or appearing incapable. You feel overwhelmed and don't know where to start.",
+                        strategies: ["Learn to say 'no'. Use the Eisenhower Matrix to prioritize tasks.", "Delegate where possible.", "Schedule dedicated time for your most important tasks."]
+                    },
+                    {
+                        name: "The ADHD-Related",
+                        icon: "🧠",
+                        driver: "Executive Dysfunction",
+                        description: "You struggle with procrastination due to underlying challenges with organization, planning, focus, and impulse control. Initiating tasks, staying on track, and avoiding distractions is a constant battle.",
+                        strategies: ["Use highly structured task breakdown (into tiny steps).", "Utilize visual aids, timers, and external reminders.", "Create a distraction-free environment and work in short bursts."]
+                    }
+                ],
+                strategies: [
+                    {
+                        category: "Mindset Shifts",
+                        icon: "💡",
+                        description: "Change how you think about your tasks.",
+                        items: [
+                            { name: "Reframe the Task", text: "Instead of 'have to', think 'get to'. Find a positive angle or personal meaning in the task to make it less aversive." },
+                            { name: "Positive Self-Talk", text: "Replace 'I'm so lazy' with 'I'll start with one small step'. Your internal dialogue shapes your motivation." },
+                            { name: "Embrace 'Good Enough'", text: "Give yourself permission to make mistakes. A finished, imperfect project is better than an unfinished, perfect one." },
+                        ]
+                    },
+                    {
+                        category: "Practical Task Management",
+                        icon: "🛠️",
+                        description: "Use proven methods to make tasks manageable.",
+                        items: [
+                            { name: "Break It Down", text: "Divide large, daunting projects into small, concrete, and manageable steps. The goal is to make the next action obvious and easy." },
+                            { name: "The 5-Minute Rule", text: "Commit to working on a task for just five minutes. Getting started is often the hardest part; momentum will carry you forward." },
+                            { name: "The Pomodoro Technique", text: "Work in focused 25-minute intervals, followed by a 5-minute break. This builds focus and prevents burnout." },
+                        ]
+                    },
+                    {
+                        category: "Emotional Resilience",
+                        icon: "❤️‍🩹",
+                        description: "Address the feelings that drive procrastination.",
+                        items: [
+                            { name: "Practice Mindfulness", text: "Notice the urge to procrastinate without judgment. Acknowledge the feeling (e.g., 'I'm feeling anxious') and then gently redirect your attention to the task." },
+                            { name: "Cultivate Self-Compassion", text: "Be kind to yourself when you procrastinate. Self-criticism fuels negative emotions and more avoidance. Treat yourself with the same kindness you'd offer a friend." },
+                            { name: "Just Notice", text: "Pay attention to the sensations of avoidance. You'll realize that procrastinating often feels worse (more guilt, anxiety) than doing the work." },
+                        ]
+                    },
+                     {
+                        category: "Accountability & Environment",
+                        icon: "🤝",
+                        description: "Use your surroundings to support your goals.",
+                        items: [
+                            { name: "Find an Accountability Partner", text: "Share your goals with a friend. The simple act of saying it out loud and scheduling a check-in can be a powerful motivator." },
+                            { name: "Reward Yourself", text: "Plan a reward for after you complete a task. This trains your brain to associate productivity with positive feelings." },
+                            { name: "Minimize Distractions", text: "Create a work environment that makes it easy to focus. Put your phone in another room, close unnecessary tabs, and find a dedicated workspace." },
+                        ]
+                    }
+                ]
+            };
+
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function showSection(id) {
+                sections.forEach(section => {
+                    if (section.id === id) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    showSection(targetId);
+                    window.history.pushState(null, '', `#${targetId}`);
+                });
+            });
+
+            function handleRouting() {
+                const hash = window.location.hash.substring(1) || 'understand';
+                showSection(hash);
+            }
+            
+            window.addEventListener('popstate', handleRouting);
+            handleRouting();
+
+
+            const ctx = document.getElementById('consequencesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: data.consequences.labels,
+                    datasets: [{
+                        label: 'Impact Score',
+                        data: data.consequences.data,
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.5)',
+                            'rgba(249, 115, 22, 0.5)',
+                            'rgba(234, 179, 8, 0.5)',
+                            'rgba(132, 204, 22, 0.5)'
+                        ],
+                         borderColor: [
+                            'rgb(239, 68, 68)',
+                            'rgb(249, 115, 22)',
+                            'rgb(234, 179, 8)',
+                            'rgb(132, 204, 22)'
+                        ],
+                        borderWidth: 1.5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            pointLabels: {
+                                display: true,
+                                centerPointLabels: true,
+                                font: {
+                                    size: 14
+                                }
+                            },
+                             ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.75)'
+                             }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return data.consequences.details[context.dataIndex];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const impulseBtn = document.getElementById('impulseBtn');
+            const controlBtn = document.getElementById('controlBtn');
+            const brainExplanation = document.getElementById('brain-explanation');
+            const limbicSide = document.getElementById('limbicSide');
+            const pfcSide = document.getElementById('pfcSide');
+
+            impulseBtn.addEventListener('click', () => {
+                brainExplanation.textContent = data.brain.impulse;
+                limbicSide.style.transform = 'scale(1.1)';
+                pfcSide.style.transform = 'scale(0.9)';
+                limbicSide.style.borderColor = '#ef4444';
+                pfcSide.style.borderColor = '#d1d5db';
+            });
+            controlBtn.addEventListener('click', () => {
+                brainExplanation.textContent = data.brain.control;
+                pfcSide.style.transform = 'scale(1.1)';
+                limbicSide.style.transform = 'scale(0.9)';
+                pfcSide.style.borderColor = '#14b8a6';
+                limbicSide.style.borderColor = '#d1d5db';
+            });
+
+            const archetypeButtonsContainer = document.getElementById('archetype-buttons');
+            const archetypeDisplay = document.getElementById('archetype-display');
+            data.archetypes.forEach(archetype => {
+                const button = document.createElement('button');
+                button.className = 'archetype-btn p-4 bg-white rounded-lg shadow-sm border border-stone-200 hover:shadow-md hover:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 flex flex-col items-center justify-center text-center';
+                button.innerHTML = `<span class="text-3xl">${archetype.icon}</span><span class="font-semibold mt-2 text-sm">${archetype.name}</span>`;
+                button.addEventListener('click', () => {
+                    displayArchetype(archetype);
+                    document.querySelectorAll('.archetype-btn').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+                archetypeButtonsContainer.appendChild(button);
+            });
+            
+            function displayArchetype(archetype) {
+                let strategiesHtml = archetype.strategies.map(s => `<li class="flex items-start"><span class="text-teal-500 mr-2 mt-1">✓</span><span>${s}</span></li>`).join('');
+                archetypeDisplay.innerHTML = `
+                    <div class="w-full">
+                        <div class="text-center mb-4">
+                           <span class="text-5xl">${archetype.icon}</span>
+                           <h3 class="text-2xl font-bold mt-2 text-stone-800">${archetype.name}</h3>
+                           <p class="text-sm font-medium text-rose-600">Primary Driver: ${archetype.driver}</p>
+                        </div>
+                        <div class="text-stone-700 space-y-4">
+                           <p>${archetype.description}</p>
+                           <div>
+                              <h4 class="font-semibold text-stone-800">Recommended Strategies:</h4>
+                              <ul class="mt-2 space-y-1 list-inside text-stone-600">${strategiesHtml}</ul>
+                           </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const accordionContainer = document.getElementById('strategies-accordion');
+            data.strategies.forEach((strategyCategory, index) => {
+                const accordionItem = document.createElement('div');
+                accordionItem.className = 'border border-stone-200 rounded-lg bg-white shadow-sm';
+                
+                let itemsHtml = strategyCategory.items.map(item => `<div class="p-4 border-t border-stone-200"><h5 class="font-semibold text-stone-800">${item.name}</h5><p class="text-stone-600 mt-1">${item.text}</p></div>`).join('');
+
+                accordionItem.innerHTML = `
+                    <button class="accordion-header w-full flex justify-between items-center p-4 text-left">
+                        <span class="flex items-center">
+                            <span class="text-2xl mr-4">${strategyCategory.icon}</span>
+                            <span>
+                                <span class="font-semibold text-lg text-teal-700">${strategyCategory.category}</span>
+                                <span class="block text-sm text-stone-500">${strategyCategory.description}</span>
+                            </span>
+                        </span>
+                        <span class="accordion-icon text-2xl text-stone-400 transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div class="accordion-content">
+                       ${itemsHtml}
+                    </div>
+                `;
+                accordionContainer.appendChild(accordionItem);
+            });
+            
+            accordionContainer.addEventListener('click', e => {
+                const header = e.target.closest('.accordion-header');
+                if (!header) return;
+
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('.accordion-icon');
+                
+                const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+                if (isOpen) {
+                    content.style.maxHeight = '0px';
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
